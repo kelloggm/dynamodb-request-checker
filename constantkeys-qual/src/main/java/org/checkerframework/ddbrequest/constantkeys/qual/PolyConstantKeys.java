@@ -11,5 +11,4 @@ import org.checkerframework.framework.qual.PolymorphicQualifier;
  */
 @PolymorphicQualifier(ConstantKeysTop.class)
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
-public @interface PolyConstantKeys {
-}
+public @interface PolyConstantKeys {}
