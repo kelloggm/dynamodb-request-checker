@@ -1,0 +1,21 @@
+import org.checkerframework.ddbrequest.enforcechecks.qual.*;
+
+package com.amazonaws.services.dynamodbv2;
+
+class AmazonDynamoDB {
+    Object query(@EnforceChecks QueryRequest q);
+}
+
+package software.amazon.awssdk.services.dynamodb.model;
+
+class QueryRequest {
+    class Builder {
+        Object build(@EnforceChecks Builder this);
+    }
+}
+
+package software.amazon.awssdk.utils.builder;
+
+class SdkBuilder<B extends SdkBuilder<B, T>, T> {
+    B build(@EnforceChecks Builder this);
+}
