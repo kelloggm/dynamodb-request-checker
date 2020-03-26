@@ -61,6 +61,12 @@ test {
     }
 }
 
+task printClasspath {
+    doLast {
+        println sourceSets.main.runtimeClasspath.asPath
+    }
+}
+
 // when this project is ready to be published,
 // we should uncomment this and resolve the errors that generates
 // apply from: rootProject.file("gradle-mvn-push.gradle")
