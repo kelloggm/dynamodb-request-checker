@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.ddbrequest.constantkeys.ConstantKeysChecker;
 
-/** A typechecker that determines expressions that have been defined in a Dynamo DB request. */
+/** A typechecker that determines the attribute names and values that have been defined in a Dynamo DB request. */
 public class DDBDefinitionsChecker extends BaseTypeChecker {
 
   @Override

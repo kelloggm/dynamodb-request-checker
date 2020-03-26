@@ -17,6 +17,7 @@ import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.value.ValueAnnotatedTypeFactory;
 import org.checkerframework.common.value.ValueChecker;
+import org.checkerframework.common.value.ValueCheckerUtils;
 import org.checkerframework.common.value.qual.StringVal;
 import org.checkerframework.ddbrequest.common.MapUtils;
 import org.checkerframework.ddbrequest.constantkeys.qual.ConstantKeys;
@@ -36,20 +37,6 @@ import org.checkerframework.javacutil.TreeUtils;
 /** The annotated type factory for the Constant Keys Checker. */
 public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
-  /**
-   * Gets the value field of an annotation with a list of strings in its value field. Null is
-   * returned if the annotation has no value field.
-   *
-   * <p>For the Index Checker, this will get a list of array names from an Upper Bound or SameLen
-   * annotation. making this safe to call on any Upper Bound or SameLen annotation.
-   */
-  public static List<String> getValueOfAnnotationWithStringArgument(AnnotationMirror anno) {
-    if (!AnnotationUtils.hasElementValue(anno, "value")) {
-      return null;
-    }
-    return AnnotationUtils.getElementValueArray(anno, "value", String.class, true);
-  }
-
   /** Canonical bottom annotation. */
   private final AnnotationMirror bottom =
       AnnotationBuilder.fromClass(elements, ConstantKeysBottom.class);
@@ -61,7 +48,7 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
   private final AnnotationMirror poly =
       AnnotationBuilder.fromClass(elements, PolyConstantKeys.class);
 
-  /** This class holds the hard-coded business logic about what maps we care about. */
+  /** This class holds the hard-coded business logic about interesting maps. */
   public final MapUtils mapUtils;
 
   public ConstantKeysAnnotatedTypeFactory(BaseTypeChecker checker) {
@@ -108,8 +95,8 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           || AnnotationUtils.areSameByClass(a2, PolyConstantKeys.class)) {
         return poly;
       } else {
-        List<String> a1Val = getValueOfAnnotationWithStringArgument(a1);
-        List<String> a2Val = getValueOfAnnotationWithStringArgument(a2);
+        List<String> a1Val = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(a1);
+        List<String> a2Val = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(a2);
         a1Val.addAll(a2Val);
         return createConstantKeys(new HashSet<>(a1Val));
       }
@@ -128,8 +115,8 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           || AnnotationUtils.areSameByClass(a2, PolyConstantKeys.class)) {
         return poly;
       } else {
-        List<String> a1Val = getValueOfAnnotationWithStringArgument(a1);
-        List<String> a2Val = getValueOfAnnotationWithStringArgument(a2);
+        List<String> a1Val = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(a1);
+        List<String> a2Val = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(a2);
         a1Val.retainAll(a2Val);
         if (a1Val.isEmpty()) {
           return top;
@@ -152,8 +139,8 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         return AnnotationUtils.areSameByClass(subtype, PolyConstantKeys.class);
       } else {
         // both have values, so either return bottom
-        List<String> subVals = getValueOfAnnotationWithStringArgument(subtype);
-        List<String> superVals = getValueOfAnnotationWithStringArgument(supertype);
+        List<String> subVals = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(subtype);
+        List<String> superVals = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(supertype);
         return subVals.containsAll(superVals);
       }
     }
@@ -170,6 +157,10 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     return builder.build();
   }
 
+  /**
+   * This TreeAnnotator defaults the results of ImmutableMap.Builder
+   * and ImmutableMap.of calls to an appropriate constant keys annotation.
+   */
   private class ConstantKeysTreeAnnotator extends TreeAnnotator {
     ConstantKeysTreeAnnotator(ConstantKeysAnnotatedTypeFactory atf) {
       super(atf);
@@ -185,7 +176,7 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           AnnotatedTypeMirror argType = vatf.getAnnotatedType(tree.getArguments().get(i));
           AnnotationMirror stringVal = argType.getAnnotation(StringVal.class);
           if (stringVal != null) {
-            List<String> values = getValueOfAnnotationWithStringArgument(stringVal);
+            List<String> values = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
             if (values.size() == 1) {
               String value = values.get(0);
               oddParamValues.add(value);
@@ -220,7 +211,7 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           AnnotatedTypeMirror valueType = valueATF.getAnnotatedType(firstParam);
           AnnotationMirror stringVal = valueType.getAnnotation(StringVal.class);
           if (stringVal != null) {
-            List<String> values = getValueOfAnnotationWithStringArgument(stringVal);
+            List<String> values = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
             if (values.size() == 1) {
               String value = values.get(0);
               AnnotationMirror newReceiverAnno =

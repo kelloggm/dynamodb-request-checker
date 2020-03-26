@@ -6,7 +6,7 @@ import org.checkerframework.framework.qual.SubtypeOf;
 
 /**
  * An expression whose type has this annotation evaluates to a DynamoDB request builder that
- * requires the given values and names to be set.
+ * has defined at least the values and names stored in the maps referenced by this annotation.
  */
 @SubtypeOf(DDBDefinitionsTop.class)
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})

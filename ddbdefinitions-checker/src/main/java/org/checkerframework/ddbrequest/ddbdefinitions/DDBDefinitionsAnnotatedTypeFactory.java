@@ -31,7 +31,7 @@ import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.TreeUtils;
 
-/** The annotated type factory for the DDB Requirements Checker. */
+/** The annotated type factory for the DDB Definitions Checker. */
 public class DDBDefinitionsAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
   /** Canonical bottom annotation. */
@@ -42,7 +42,7 @@ public class DDBDefinitionsAnnotatedTypeFactory extends BaseAnnotatedTypeFactory
   public final AnnotationMirror top =
       AnnotationBuilder.fromClass(elements, DDBDefinitionsTop.class);
 
-  /** The business logic related to which Dynamo operations to support. */
+  /** The business logic related to which DynamoDB operations to support. */
   private final DDBUtils ddbUtils;
 
   public DDBDefinitionsAnnotatedTypeFactory(BaseTypeChecker checker) {
@@ -158,6 +158,11 @@ public class DDBDefinitionsAnnotatedTypeFactory extends BaseAnnotatedTypeFactory
     return builder.build();
   }
 
+  /**
+   * Propagates types of methods that are known to return their receiver.
+   * TODO: merge with object construction checker logic in a new accumulation
+   * analysis in the framework.
+   */
   private class DDBDefinitionsTreeAnnotator extends TreeAnnotator {
     DDBDefinitionsTreeAnnotator(DDBDefinitionsAnnotatedTypeFactory atf) {
       super(atf);

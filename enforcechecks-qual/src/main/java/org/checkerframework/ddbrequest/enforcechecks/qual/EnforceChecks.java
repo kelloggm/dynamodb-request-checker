@@ -11,14 +11,14 @@ import org.checkerframework.framework.qual.SubtypeOf;
  * checked against its ddb definitions.
  *
  * <p>This type is a subtype of @DoNotEnforceChecks in the standard way.
- * However, @DoNotEnforceChecks is a subtype of this type iff every name and value in the {@link
- * DDBRequirements} type is defined by the {@link DDBDefinitions} type.
+ * However, @DoNotEnforceChecks is a subtype of this type iff every name and value in the {@code
+ * DDBRequirements} type is defined by the {@code DDBDefinitions} type.
  *
  * <p>This annotation exists to permit writing specifications for DDB APIs in stub files. For
  * example, to enforce that at a call to build() in the V2 API, the QueryRequest has been correctly
  * constructed:
  *
- * <p>{@code QueryRequest build(@EnforceChecks QueryRequest.Builder this) { ... } }
+ * <p>{@code QueryRequest build(QueryRequest.@EnforceChecks Builder this) { ... } }
  */
 @SubtypeOf(DoNotEnforceChecks.class)
 @Retention(RetentionPolicy.RUNTIME)

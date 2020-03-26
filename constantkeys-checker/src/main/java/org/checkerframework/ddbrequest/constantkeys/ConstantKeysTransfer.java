@@ -5,6 +5,7 @@ import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 import org.checkerframework.common.value.ValueAnnotatedTypeFactory;
 import org.checkerframework.common.value.ValueChecker;
+import org.checkerframework.common.value.ValueCheckerUtils;
 import org.checkerframework.common.value.qual.StringVal;
 import org.checkerframework.dataflow.analysis.FlowExpressions;
 import org.checkerframework.dataflow.analysis.TransferInput;
@@ -29,7 +30,8 @@ public class ConstantKeysTransfer extends CFTransfer {
 
   /**
    * Based heavily on ObjectConstructionTransfer#visitMethodInvocation from
-   * github.com/kelloggm/object-construction-checker.
+   * github.com/kelloggm/object-construction-checker. TODO: move this code into
+   * an accumulation analysis abstract checker in the framework itself.
    */
   @Override
   public TransferResult<CFValue, CFStore> visitMethodInvocation(
@@ -52,7 +54,7 @@ public class ConstantKeysTransfer extends CFTransfer {
       AnnotationMirror stringVal = valueType.getAnnotation(StringVal.class);
       if (stringVal != null) {
         List<String> values =
-            ConstantKeysAnnotatedTypeFactory.getValueOfAnnotationWithStringArgument(stringVal);
+            ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
         if (values.size() == 1) {
           String value = values.get(0);
           AnnotatedTypeMirror receiverType = annotatedTypeFactory.getReceiverType(node.getTree());

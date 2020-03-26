@@ -9,9 +9,6 @@ import org.checkerframework.framework.qual.SubtypeOf;
 /**
  * A bottom annotation for the DDB definitions type system. This annotation should never be written
  * by programmers, but is needed by the type hierarchy for completeness.
- *
- * <p>If you see an error including this annotation, please contact checkerframework-dev@ and
- * provide the error message and the code package you were running on.
  */
 @SubtypeOf(DDBDefinitions.class)
 @Retention(RetentionPolicy.RUNTIME)

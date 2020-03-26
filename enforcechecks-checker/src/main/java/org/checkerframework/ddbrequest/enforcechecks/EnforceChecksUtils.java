@@ -13,6 +13,11 @@ import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.AnnotationUtils;
 
+/**
+ * Helper class that implements the logic of actually
+ * enforcing that the names and values that are required
+ * were actually defined.
+ */
 public class EnforceChecksUtils {
 
   private EnforceChecksUtils() {

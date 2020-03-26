@@ -31,7 +31,7 @@ import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.TreeUtils;
 
-/** The annotated type factory for the Constant Keys Checker. */
+/** The annotated type factory for the DDB Requirements Checker. */
 public class DDBRequirementsAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
   /** Canonical bottom annotation. */
@@ -159,6 +159,10 @@ public class DDBRequirementsAnnotatedTypeFactory extends BaseAnnotatedTypeFactor
     return builder.build();
   }
 
+  /**
+   * TODO: this implements returns receiver logic and should be replaced with
+   * the new accumulation analysis
+   */
   private class DDBRequirementsTreeAnnotator extends TreeAnnotator {
     DDBRequirementsTreeAnnotator(DDBRequirementsAnnotatedTypeFactory atf) {
       super(atf);
