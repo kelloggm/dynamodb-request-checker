@@ -31,8 +31,7 @@ public class DDBRequirementsTransfer extends CFTransfer {
 
   /**
    * Based heavily on ObjectConstructionTransfer#visitMethodInvocation from
-   * github.com/kelloggm/object-construction-checker. TODO: replace with
-   * new accumulation analysis.
+   * github.com/kelloggm/object-construction-checker. TODO: replace with new accumulation analysis.
    */
   @Override
   public TransferResult<CFValue, CFStore> visitMethodInvocation(

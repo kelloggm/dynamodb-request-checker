@@ -32,7 +32,8 @@ public class EnforceChecksVisitor extends BaseTypeVisitor<EnforceChecksAnnotated
       AnnotatedTypeMirror varType,
       AnnotatedTypeMirror valueType,
       Tree valueTree,
-      @CompilerMessageKey String errorKey) {
+      @CompilerMessageKey String errorKey,
+      Object... extraArgs) {
     if (varType.hasAnnotation(EnforceChecks.class)
         && valueType.hasAnnotation(DoNotEnforceChecks.class)) {
       DDBDefinitionsAnnotatedTypeFactory definitionFactory =
@@ -42,7 +43,7 @@ public class EnforceChecksVisitor extends BaseTypeVisitor<EnforceChecksAnnotated
       EnforceChecksUtils.checkRequirementsAgainstDefinitions(
           valueTree, definitionFactory, requirementsFactory, checker);
     } else {
-      super.commonAssignmentCheck(varType, valueType, valueTree, errorKey);
+      super.commonAssignmentCheck(varType, valueType, valueTree, errorKey, extraArgs);
     }
   }
 

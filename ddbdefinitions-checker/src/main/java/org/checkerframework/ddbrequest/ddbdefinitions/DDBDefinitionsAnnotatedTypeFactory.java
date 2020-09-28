@@ -159,9 +159,8 @@ public class DDBDefinitionsAnnotatedTypeFactory extends BaseAnnotatedTypeFactory
   }
 
   /**
-   * Propagates types of methods that are known to return their receiver.
-   * TODO: merge with object construction checker logic in a new accumulation
-   * analysis in the framework.
+   * Propagates types of methods that are known to return their receiver. TODO: merge with object
+   * construction checker logic in a new accumulation analysis in the framework.
    */
   private class DDBDefinitionsTreeAnnotator extends TreeAnnotator {
     DDBDefinitionsTreeAnnotator(DDBDefinitionsAnnotatedTypeFactory atf) {

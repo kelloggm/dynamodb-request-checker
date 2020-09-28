@@ -140,7 +140,8 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
       } else {
         // both have values, so either return bottom
         List<String> subVals = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(subtype);
-        List<String> superVals = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(supertype);
+        List<String> superVals =
+            ValueCheckerUtils.getValueOfAnnotationWithStringArgument(supertype);
         return subVals.containsAll(superVals);
       }
     }
@@ -158,8 +159,8 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
   }
 
   /**
-   * This TreeAnnotator defaults the results of ImmutableMap.Builder
-   * and ImmutableMap.of calls to an appropriate constant keys annotation.
+   * This TreeAnnotator defaults the results of ImmutableMap.Builder and ImmutableMap.of calls to an
+   * appropriate constant keys annotation.
    */
   private class ConstantKeysTreeAnnotator extends TreeAnnotator {
     ConstantKeysTreeAnnotator(ConstantKeysAnnotatedTypeFactory atf) {
@@ -176,7 +177,8 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           AnnotatedTypeMirror argType = vatf.getAnnotatedType(tree.getArguments().get(i));
           AnnotationMirror stringVal = argType.getAnnotation(StringVal.class);
           if (stringVal != null) {
-            List<String> values = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
+            List<String> values =
+                ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
             if (values.size() == 1) {
               String value = values.get(0);
               oddParamValues.add(value);
@@ -211,7 +213,8 @@ public class ConstantKeysAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           AnnotatedTypeMirror valueType = valueATF.getAnnotatedType(firstParam);
           AnnotationMirror stringVal = valueType.getAnnotation(StringVal.class);
           if (stringVal != null) {
-            List<String> values = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
+            List<String> values =
+                ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
             if (values.size() == 1) {
               String value = values.get(0);
               AnnotationMirror newReceiverAnno =

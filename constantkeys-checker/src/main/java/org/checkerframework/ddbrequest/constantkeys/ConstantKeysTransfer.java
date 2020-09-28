@@ -30,8 +30,8 @@ public class ConstantKeysTransfer extends CFTransfer {
 
   /**
    * Based heavily on ObjectConstructionTransfer#visitMethodInvocation from
-   * github.com/kelloggm/object-construction-checker. TODO: move this code into
-   * an accumulation analysis abstract checker in the framework itself.
+   * github.com/kelloggm/object-construction-checker. TODO: move this code into an accumulation
+   * analysis abstract checker in the framework itself.
    */
   @Override
   public TransferResult<CFValue, CFStore> visitMethodInvocation(
@@ -53,8 +53,7 @@ public class ConstantKeysTransfer extends CFTransfer {
       AnnotatedTypeMirror valueType = valueATF.getAnnotatedType(firstParam.getTree());
       AnnotationMirror stringVal = valueType.getAnnotation(StringVal.class);
       if (stringVal != null) {
-        List<String> values =
-            ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
+        List<String> values = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
         if (values.size() == 1) {
           String value = values.get(0);
           AnnotatedTypeMirror receiverType = annotatedTypeFactory.getReceiverType(node.getTree());

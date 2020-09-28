@@ -160,8 +160,8 @@ public class DDBRequirementsAnnotatedTypeFactory extends BaseAnnotatedTypeFactor
   }
 
   /**
-   * TODO: this implements returns receiver logic and should be replaced with
-   * the new accumulation analysis
+   * TODO: this implements returns receiver logic and should be replaced with the new accumulation
+   * analysis
    */
   private class DDBRequirementsTreeAnnotator extends TreeAnnotator {
     DDBRequirementsTreeAnnotator(DDBRequirementsAnnotatedTypeFactory atf) {

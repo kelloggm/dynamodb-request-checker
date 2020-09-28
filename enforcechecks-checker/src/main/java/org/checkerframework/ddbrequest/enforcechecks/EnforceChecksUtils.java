@@ -9,14 +9,12 @@ import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.ddbrequest.common.DDBUtils;
 import org.checkerframework.ddbrequest.ddbdefinitions.DDBDefinitionsAnnotatedTypeFactory;
 import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsAnnotatedTypeFactory;
-import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.AnnotationUtils;
 
 /**
- * Helper class that implements the logic of actually
- * enforcing that the names and values that are required
- * were actually defined.
+ * Helper class that implements the logic of actually enforcing that the names and values that are
+ * required were actually defined.
  */
 public class EnforceChecksUtils {
 
@@ -110,9 +108,8 @@ public class EnforceChecksUtils {
       if (name.startsWith("#")) {
         definedNames.add(name.substring(1));
       } else {
-        checker.report(
-            Result.failure(DDBUtils.MIXED_NAMES_VALUES, name, "expressionAttributeNames"),
-            reportLocation);
+        checker.reportError(
+            reportLocation, DDBUtils.MIXED_NAMES_VALUES, name, "expressionAttributeNames");
       }
     }
 
@@ -120,9 +117,8 @@ public class EnforceChecksUtils {
       if (value.startsWith(":")) {
         definedValues.add(value.substring(1));
       } else {
-        checker.report(
-            Result.failure(DDBUtils.MIXED_NAMES_VALUES, value, "expressionAttributeValues"),
-            reportLocation);
+        checker.reportError(
+            reportLocation, DDBUtils.MIXED_NAMES_VALUES, value, "expressionAttributeValues");
       }
     }
 
@@ -131,18 +127,16 @@ public class EnforceChecksUtils {
     for (String requiredName : requiredNames) {
       if (!definedNames.contains(requiredName)) {
         final String definedNamesString = String.join(", ", definitionNames);
-        checker.report(
-            Result.failure(DDBUtils.UNDEFINED, "name", requiredName, definedNamesString),
-            reportLocation);
+        checker.reportError(
+            reportLocation, DDBUtils.UNDEFINED, "name", requiredName, definedNamesString);
       }
     }
 
     for (String requiredValue : requiredValues) {
       if (!definedValues.contains(requiredValue)) {
         final String definedValuesString = String.join(", ", definitionValues);
-        checker.report(
-            Result.failure(DDBUtils.UNDEFINED, "value", requiredValue, definedValuesString),
-            reportLocation);
+        checker.reportError(
+            reportLocation, DDBUtils.UNDEFINED, "value", requiredValue, definedValuesString);
       }
     }
   }
