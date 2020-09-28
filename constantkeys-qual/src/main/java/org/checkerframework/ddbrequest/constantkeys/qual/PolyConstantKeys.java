@@ -9,6 +9,6 @@ import org.checkerframework.framework.qual.PolymorphicQualifier;
  *
  * @checker_framework.manual #qualifier-polymorphism Qualifier polymorphism
  */
-@PolymorphicQualifier(ConstantKeysTop.class)
+@PolymorphicQualifier(ConstantKeys.class)
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface PolyConstantKeys {}

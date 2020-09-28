@@ -26,7 +26,7 @@ dependencies {
     api project(':constantkeys-qual')
 
     // Testing
-    testImplementation "junit:junit:4.12"
+    testImplementation "junit:junit:4.13"
     testCompile "org.checkerframework:framework-test:${versions.checkerFramework}"
     testCompile "com.google.guava:guava:${versions.guava}"
 
@@ -50,6 +50,15 @@ test {
     inputs.files("tests/constantkeys")
     if (!JavaVersion.current().java9Compatible) {
         jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
+    }
+}
+
+task printClasspath {
+    description 'Prints the runtime classpath of the checker. When using the checker to typecheck' +
+            'another project, you should put the result of running this task on either the processor' +
+            'path or the classpath of the target project.'
+    doLast {
+        println sourceSets.main.runtimeClasspath.asPath
     }
 }
 

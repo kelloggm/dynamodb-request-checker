@@ -12,7 +12,7 @@ plugins {
 
 
 ext.versions = [
-        checkerFramework: "3.6.1",
+        checkerFramework: "3.7.0-SNAPSHOT",
         awsSdkv2: "2.10.84",
         awsSdkv1: "1.11.749",
         guava: "28.0-jre",
