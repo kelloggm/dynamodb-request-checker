@@ -21,16 +21,11 @@ dependencies {
     implementation "org.checkerframework:checker:${versions.checkerFramework}"
     compileOnly "com.google.errorprone:javac:${versions.errorProneJavac}"
     implementation project(':dynamodb-common')
-    implementation project(':required-names-checker')
-    implementation project(':defined-values-checker')
-    implementation project(':defined-names-checker')
+    implementation project(':constantkeys-checker')
 
     // Export qualifiers to upstream dependencies, for convenience
-    api project(':defined-values-qual')
     api project(':defined-names-qual')
-    api project(':required-names-qual')
     api project(':constantkeys-qual')
-    api project(':enforcechecks-qual')
 
     // Testing
     testImplementation "junit:junit:4.12"
@@ -57,15 +52,9 @@ spotless {
 }
 
 test {
-    inputs.files("tests/enforcechecks")
+    inputs.files("tests/ddbnamesdefinitions")
     if (!JavaVersion.current().java9Compatible) {
         jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
-    }
-}
-
-task printClasspath {
-    doLast {
-        println sourceSets.main.runtimeClasspath.asPath
     }
 }
 

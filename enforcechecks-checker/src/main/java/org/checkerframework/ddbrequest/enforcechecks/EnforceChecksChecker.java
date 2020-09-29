@@ -3,7 +3,7 @@ package org.checkerframework.ddbrequest.enforcechecks;
 import java.util.LinkedHashSet;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsChecker;
-import org.checkerframework.ddbrequest.ddbvaluesdefinitions.DDBValuesDefinitionsChecker;
+import org.checkerframework.ddbrequest.definedvalues.DefinedValuesChecker;
 import org.checkerframework.framework.qual.StubFiles;
 
 /**
@@ -16,7 +16,7 @@ public class EnforceChecksChecker extends BaseTypeChecker {
   protected LinkedHashSet<Class<? extends BaseTypeChecker>> getImmediateSubcheckerClasses() {
     LinkedHashSet<Class<? extends BaseTypeChecker>> checkers =
         super.getImmediateSubcheckerClasses();
-    checkers.add(DDBValuesDefinitionsChecker.class);
+    checkers.add(DefinedValuesChecker.class);
     checkers.add(DDBRequirementsChecker.class);
     return checkers;
   }
