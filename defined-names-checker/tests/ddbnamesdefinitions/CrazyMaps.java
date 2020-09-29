@@ -28,7 +28,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+        QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 
 
@@ -44,7 +44,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+        QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 
     void testAws() {
@@ -59,7 +59,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+        QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 
     void testAws2() {
@@ -72,7 +72,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+        QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 
     void testJava() {
@@ -91,7 +91,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        // QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+        // QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 
     void testSpecificMap() {
@@ -112,7 +112,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+        QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 
     void testCollections() {
@@ -127,7 +127,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+        QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 
     void testStream() {
@@ -143,6 +143,6 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-//        QueryRequest.@DDBNamesDefinitions({"#type"}) Builder b2 = b;
+//        QueryRequest.@DefinedNames({"#type"}) Builder b2 = b;
     }
 }

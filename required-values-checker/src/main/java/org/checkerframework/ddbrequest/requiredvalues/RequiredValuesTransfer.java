@@ -1,4 +1,4 @@
-package org.checkerframework.ddbrequest.requirednames;
+package org.checkerframework.ddbrequest.requiredvalues;
 
 import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
@@ -18,16 +18,16 @@ import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 
 /**
- * Transfer function for required names. Handles side-effecting the receiver of calls to expression
- * methods that induce a name requirement (the annotated type factory handles the return types of
+ * Transfer function for required values. Handles side-effecting the receiver of calls to expression
+ * methods that induce a value requirement (the annotated type factory handles the return types of
  * such methods).
  */
-public class RequiredNamesTransfer extends AccumulationTransfer {
+public class RequiredValuesTransfer extends AccumulationTransfer {
 
   /** Business logic about the function of various parts of DynamoDB. */
   private final DDBUtils ddbUtils;
 
-  public RequiredNamesTransfer(CFAnalysis analysis) {
+  public RequiredValuesTransfer(CFAnalysis analysis) {
     super(analysis);
     ddbUtils = new DDBUtils(analysis.getEnv());
   }
@@ -46,9 +46,9 @@ public class RequiredNamesTransfer extends AccumulationTransfer {
         List<String> values = ValueCheckerUtils.getValueOfAnnotationWithStringArgument(stringVal);
         if (values.size() == 1) {
           String value = values.get(0);
-          List<String> newNames = ddbUtils.parseNames(value);
+          List<String> newValues = ddbUtils.parseValues(value);
           Node receiver = n.getTarget().getReceiver();
-          accumulate(receiver, result, newNames.toArray(new String[0]));
+          accumulate(receiver, result, newValues.toArray(new String[0]));
         }
       }
     }

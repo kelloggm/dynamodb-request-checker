@@ -19,6 +19,6 @@ class SimpleExample {
                 .expressionAttributeNames(ImmutableMap.of("#type", "type"))
                 .filterExpression("#type = :type");
 
-        QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
+        QueryRequest.@DefinedValues({":account_id", ":type"}) Builder b2 = b;
     }
 }
