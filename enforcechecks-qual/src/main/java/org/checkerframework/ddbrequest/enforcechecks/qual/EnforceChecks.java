@@ -12,7 +12,8 @@ import org.checkerframework.framework.qual.SubtypeOf;
  *
  * <p>This type is a subtype of @DoNotEnforceChecks in the standard way.
  * However, @DoNotEnforceChecks is a subtype of this type iff every name and value in the {@code
- * DDBRequirements} type is defined by the {@code DDBDefinitions} type.
+ * RequiredValues} and {@code RequiredNames} types are defined by the {@code RequiredValues}
+ * and {@code RequiredValues} types, respectively.
  *
  * <p>This annotation exists to permit writing specifications for DDB APIs in stub files. For
  * example, to enforce that at a call to build() in the V2 API, the QueryRequest has been correctly

@@ -21,13 +21,15 @@ dependencies {
     implementation "org.checkerframework:checker:${versions.checkerFramework}"
     compileOnly "com.google.errorprone:javac:${versions.errorProneJavac}"
     implementation project(':dynamodb-common')
-    implementation project(':required-names-checker')
     implementation project(':defined-values-checker')
     implementation project(':defined-names-checker')
+    implementation project(':required-values-checker')
+    implementation project(':required-names-checker')
 
     // Export qualifiers to upstream dependencies, for convenience
     api project(':defined-values-qual')
     api project(':defined-names-qual')
+    api project(':required-values-qual')
     api project(':required-names-qual')
     api project(':constantkeys-qual')
     api project(':enforcechecks-qual')
