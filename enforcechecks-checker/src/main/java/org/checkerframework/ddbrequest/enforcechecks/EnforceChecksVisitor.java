@@ -6,10 +6,10 @@ import javax.lang.model.element.ElementKind;
 import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
-import org.checkerframework.ddbrequest.ddbdefinitions.DDBDefinitionsAnnotatedTypeFactory;
-import org.checkerframework.ddbrequest.ddbdefinitions.DDBDefinitionsChecker;
 import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsAnnotatedTypeFactory;
 import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsChecker;
+import org.checkerframework.ddbrequest.ddbvaluesdefinitions.DDBValuesDefinitionsAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.ddbvaluesdefinitions.DDBValuesDefinitionsChecker;
 import org.checkerframework.ddbrequest.enforcechecks.qual.DoNotEnforceChecks;
 import org.checkerframework.ddbrequest.enforcechecks.qual.EnforceChecks;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
@@ -36,8 +36,8 @@ public class EnforceChecksVisitor extends BaseTypeVisitor<EnforceChecksAnnotated
       Object... extraArgs) {
     if (varType.hasAnnotation(EnforceChecks.class)
         && valueType.hasAnnotation(DoNotEnforceChecks.class)) {
-      DDBDefinitionsAnnotatedTypeFactory definitionFactory =
-          atypeFactory.getTypeFactoryOfSubchecker(DDBDefinitionsChecker.class);
+      DDBValuesDefinitionsAnnotatedTypeFactory definitionFactory =
+          atypeFactory.getTypeFactoryOfSubchecker(DDBValuesDefinitionsChecker.class);
       DDBRequirementsAnnotatedTypeFactory requirementsFactory =
           atypeFactory.getTypeFactoryOfSubchecker(DDBRequirementsChecker.class);
       EnforceChecksUtils.checkRequirementsAgainstDefinitions(
@@ -74,8 +74,8 @@ public class EnforceChecksVisitor extends BaseTypeVisitor<EnforceChecksAnnotated
     if (!skipReceiverSubtypeCheck(node, methodReceiver, rcv)) {
       if (treeReceiver.hasAnnotation(DoNotEnforceChecks.class)
           && methodReceiver.hasAnnotation(EnforceChecks.class)) {
-        DDBDefinitionsAnnotatedTypeFactory definitionFactory =
-            atypeFactory.getTypeFactoryOfSubchecker(DDBDefinitionsChecker.class);
+        DDBValuesDefinitionsAnnotatedTypeFactory definitionFactory =
+            atypeFactory.getTypeFactoryOfSubchecker(DDBValuesDefinitionsChecker.class);
         DDBRequirementsAnnotatedTypeFactory requirementsFactory =
             atypeFactory.getTypeFactoryOfSubchecker(DDBRequirementsChecker.class);
         EnforceChecksUtils.checkRequirementsAgainstDefinitions(

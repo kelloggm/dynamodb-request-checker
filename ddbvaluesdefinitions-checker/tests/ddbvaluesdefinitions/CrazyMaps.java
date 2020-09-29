@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.checkerframework.ddbrequest.ddbdefinitions.qual.*;
+import org.checkerframework.ddbrequest.ddbvaluesdefinitions.qual.*;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 
@@ -28,7 +28,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+        QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 
 
@@ -44,7 +44,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+        QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 
     void testAws() {
@@ -59,7 +59,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+        QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 
     void testAws2() {
@@ -72,7 +72,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+        QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 
     void testJava() {
@@ -91,7 +91,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        // QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+        // QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 
     void testSpecificMap() {
@@ -112,7 +112,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        // QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+        // QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 
     void testCollections() {
@@ -127,7 +127,7 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-        QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+        QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 
     void testStream() {
@@ -143,6 +143,6 @@ class CrazyMaps {
                                              .expressionAttributeNames(names)
                                              .filterExpression("#type = :type");
 
-//        QueryRequest.@DDBDefinitions(names = {"#type"}, values = {":account_id", ":type"}) Builder b2 = b;
+//        QueryRequest.@DDBValuesDefinitions({":account_id", ":type"}) Builder b2 = b;
     }
 }

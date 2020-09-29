@@ -7,8 +7,8 @@ import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.ddbrequest.common.DDBUtils;
-import org.checkerframework.ddbrequest.ddbdefinitions.DDBDefinitionsAnnotatedTypeFactory;
 import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.ddbvaluesdefinitions.DDBValuesDefinitionsAnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.AnnotationUtils;
 
@@ -29,7 +29,7 @@ public class EnforceChecksUtils {
    */
   public static void checkRequirementsAgainstDefinitions(
       Tree treeToCheck,
-      DDBDefinitionsAnnotatedTypeFactory definitionFactory,
+      DDBValuesDefinitionsAnnotatedTypeFactory definitionFactory,
       DDBRequirementsAnnotatedTypeFactory requirementsFactory,
       BaseTypeChecker checker) {
     checkRequirementsAgainstDefinitions(
@@ -44,7 +44,7 @@ public class EnforceChecksUtils {
   public static void checkRequirementsAgainstDefinitions(
       Tree treeToCheck,
       Tree reportLocation,
-      DDBDefinitionsAnnotatedTypeFactory definitionFactory,
+      DDBValuesDefinitionsAnnotatedTypeFactory definitionFactory,
       DDBRequirementsAnnotatedTypeFactory requirementsFactory,
       BaseTypeChecker checker) {
     // first, pull out the requirements

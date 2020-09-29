@@ -24,7 +24,7 @@ dependencies {
     implementation project(':constantkeys-checker')
 
     // Export qualifiers to upstream dependencies, for convenience
-    api project(':ddbdefinitions-qual')
+    api project(':ddbvaluesdefinitions-qual')
     api project(':constantkeys-qual')
 
     // Testing
@@ -52,7 +52,7 @@ spotless {
 }
 
 test {
-    inputs.files("tests/ddbdefinitions")
+    inputs.files("tests/ddbvaluesdefinitions")
     if (!JavaVersion.current().java9Compatible) {
         jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
     }
