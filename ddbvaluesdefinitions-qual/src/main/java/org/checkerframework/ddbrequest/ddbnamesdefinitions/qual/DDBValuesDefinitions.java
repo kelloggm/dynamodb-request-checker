@@ -1,4 +1,4 @@
-package org.checkerframework.ddbrequest.ddbvaluesdefinitions.qual;
+package org.checkerframework.ddbrequest.ddbnamesdefinitions.qual;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;

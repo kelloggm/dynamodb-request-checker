@@ -1,0 +1,63 @@
+plugins {
+    id 'java-library'
+
+}
+
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+sourceCompatibility = 1.8
+
+configurations {
+    // for putting Error Prone javac in bootclasspath for running tests
+    errorproneJavac
+}
+
+dependencies {
+    // This dependency is found on compile classpath of this component and consumers.
+    implementation "org.checkerframework:checker:${versions.checkerFramework}"
+    compileOnly "com.google.errorprone:javac:${versions.errorProneJavac}"
+    implementation project(':dynamodb-common')
+    implementation project(':constantkeys-checker')
+
+    // Export qualifiers to upstream dependencies, for convenience
+    api project(':ddbnamesdefinitions-qual')
+    api project(':constantkeys-qual')
+
+    // Testing
+    testImplementation "junit:junit:4.12"
+    testCompile "org.checkerframework:framework-test:${versions.checkerFramework}"
+    testCompile "com.google.guava:guava:${versions.guava}"
+    testCompile "software.amazon.awssdk:utils:${versions.awsSdkv2}"
+    testCompile "software.amazon.awssdk:dynamodb:${versions.awsSdkv2}"
+    testCompile "com.amazonaws:aws-java-sdk-dynamodb:${versions.awsSdkv1}"
+
+    errorproneJavac "com.google.errorprone:javac:${versions.errorProneJavac}"
+}
+
+tasks.withType(JavaCompile).all {
+    options.compilerArgs.add("-Xlint:all")
+}
+
+// run google java format
+spotless {
+    // uncomment this line to temporarily disable spotless (i.e. when debugging)
+    // enforceCheck = false
+    java {
+        googleJavaFormat()
+    }
+}
+
+test {
+    inputs.files("tests/ddbnamesdefinitions")
+    if (!JavaVersion.current().java9Compatible) {
+        jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
+    }
+}
+
+// when this project is ready to be published,
+// we should uncomment this and resolve the errors that generates
+// apply from: rootProject.file("gradle-mvn-push.gradle")

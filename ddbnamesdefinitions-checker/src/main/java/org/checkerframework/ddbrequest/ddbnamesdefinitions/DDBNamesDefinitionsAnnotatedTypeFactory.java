@@ -1,4 +1,4 @@
-package org.checkerframework.ddbrequest.ddbvaluesdefinitions;
+package org.checkerframework.ddbrequest.ddbnamesdefinitions;
 
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.Tree;
@@ -12,22 +12,22 @@ import org.checkerframework.ddbrequest.common.DDBUtils;
 import org.checkerframework.ddbrequest.constantkeys.ConstantKeysAnnotatedTypeFactory;
 import org.checkerframework.ddbrequest.constantkeys.ConstantKeysChecker;
 import org.checkerframework.ddbrequest.constantkeys.qual.ConstantKeys;
-import org.checkerframework.ddbrequest.ddbnamesdefinitions.qual.DDBValuesDefinitions;
-import org.checkerframework.ddbrequest.ddbnamesdefinitions.qual.DDBValuesDefinitionsBottom;
+import org.checkerframework.ddbrequest.ddbnamesdefinitions.qual.DDBNamesDefinitions;
+import org.checkerframework.ddbrequest.ddbnamesdefinitions.qual.DDBNamesDefinitionsBottom;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
 import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 
-/** The annotated type factory for the DDB Values Definitions Checker. */
-public class DDBValuesDefinitionsAnnotatedTypeFactory extends AccumulationAnnotatedTypeFactory {
+/** The annotated type factory for the DDB Names Definitions Checker. */
+public class DDBNamesDefinitionsAnnotatedTypeFactory extends AccumulationAnnotatedTypeFactory {
 
   /** The business logic related to which DynamoDB operations to support. */
   private final DDBUtils ddbUtils;
 
-  public DDBValuesDefinitionsAnnotatedTypeFactory(BaseTypeChecker checker) {
-    super(checker, DDBValuesDefinitions.class, DDBValuesDefinitionsBottom.class);
+  public DDBNamesDefinitionsAnnotatedTypeFactory(BaseTypeChecker checker) {
+    super(checker, DDBNamesDefinitions.class, DDBNamesDefinitionsBottom.class);
     ddbUtils = new DDBUtils(this.processingEnv);
     this.postInit();
   }
@@ -35,39 +35,39 @@ public class DDBValuesDefinitionsAnnotatedTypeFactory extends AccumulationAnnota
   @Override
   public TreeAnnotator createTreeAnnotator() {
     return new ListTreeAnnotator(
-        new DDBValuesDefinitionsTreeAnnotator(this), super.createTreeAnnotator());
+        new DDBNamesDefinitionsTreeAnnotator(this), super.createTreeAnnotator());
   }
 
-  /** Creates a @DDBValuesDefinitions annotation from the given names and values. */
-  public AnnotationMirror createDDBValuesDefinitions(Collection<String> values) {
-    AnnotationBuilder builder = new AnnotationBuilder(processingEnv, DDBValuesDefinitions.class);
-    String[] valueArray = values.toArray(new String[0]);
+  /** Creates a @DDBNamesDefinitions annotation from the given names and names. */
+  public AnnotationMirror createDDBNamesDefinitions(Collection<String> names) {
+    AnnotationBuilder builder = new AnnotationBuilder(processingEnv, DDBNamesDefinitions.class);
+    String[] valueArray = names.toArray(new String[0]);
     builder.setValue("value", valueArray);
     return builder.build();
   }
 
   /**
-   * Defaults the return type of methods that set the expression attribute values to take the known
+   * Defaults the return type of methods that set the expression attribute names to take the known
    * constant keys of the argument into account.
    */
-  private class DDBValuesDefinitionsTreeAnnotator extends TreeAnnotator {
-    DDBValuesDefinitionsTreeAnnotator(DDBValuesDefinitionsAnnotatedTypeFactory atf) {
+  private class DDBNamesDefinitionsTreeAnnotator extends TreeAnnotator {
+    DDBNamesDefinitionsTreeAnnotator(DDBNamesDefinitionsAnnotatedTypeFactory atf) {
       super(atf);
     }
 
     @Override
     public Void visitMethodInvocation(MethodInvocationTree tree, AnnotatedTypeMirror type) {
-      if (ddbUtils.isValuesSetter(tree, processingEnv)) {
-        Tree valuesExpr = tree.getArguments().get(0);
+      if (ddbUtils.isNamesSetter(tree, processingEnv)) {
+        Tree namesExpr = tree.getArguments().get(0);
         ConstantKeysAnnotatedTypeFactory ckatf =
             getTypeFactoryOfSubchecker(ConstantKeysChecker.class);
-        AnnotatedTypeMirror ckType = ckatf.getAnnotatedType(valuesExpr);
+        AnnotatedTypeMirror ckType = ckatf.getAnnotatedType(namesExpr);
         AnnotationMirror ckAnno = ckType.getAnnotation(ConstantKeys.class);
-        List<String> values =
+        List<String> names =
             ckAnno == null
                 ? new ArrayList<>()
                 : AnnotationUtils.getElementValueArray(ckAnno, "value", String.class, true);
-        type.replaceAnnotation(createDDBValuesDefinitions(values));
+        type.replaceAnnotation(createDDBNamesDefinitions(names));
       }
       return super.visitMethodInvocation(tree, type);
     }
