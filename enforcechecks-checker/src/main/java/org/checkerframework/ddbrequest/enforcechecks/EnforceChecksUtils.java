@@ -1,14 +1,22 @@
 package org.checkerframework.ddbrequest.enforcechecks;
 
 import com.sun.source.tree.Tree;
-import java.util.ArrayList;
+import java.lang.annotation.Annotation;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.ddbrequest.common.DDBUtils;
-import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.definednames.DefinedNamesAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.definednames.qual.DefinedNames;
 import org.checkerframework.ddbrequest.definedvalues.DefinedValuesAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.definedvalues.qual.DefinedValues;
+import org.checkerframework.ddbrequest.requirednames.RequiredNamesAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.requirednames.qual.RequiredNames;
+import org.checkerframework.ddbrequest.requiredvalues.RequiredValuesAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.requiredvalues.qual.RequiredValues;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.AnnotationUtils;
 
@@ -29,11 +37,41 @@ public class EnforceChecksUtils {
    */
   public static void checkRequirementsAgainstDefinitions(
       Tree treeToCheck,
-      DefinedValuesAnnotatedTypeFactory definitionFactory,
-      DDBRequirementsAnnotatedTypeFactory requirementsFactory,
+      DefinedValuesAnnotatedTypeFactory definedValuesFactory,
+      DefinedNamesAnnotatedTypeFactory definedNamesFactory,
+      RequiredValuesAnnotatedTypeFactory requiredValuesFactory,
+      RequiredNamesAnnotatedTypeFactory requiredNamesFactory,
       BaseTypeChecker checker) {
     checkRequirementsAgainstDefinitions(
-        treeToCheck, treeToCheck, definitionFactory, requirementsFactory, checker);
+        treeToCheck,
+        treeToCheck,
+        definedValuesFactory,
+        definedNamesFactory,
+        requiredValuesFactory,
+        requiredNamesFactory,
+        checker);
+  }
+
+  /**
+   * Utility method for fetching the contents of an accumulator annotation from one of the
+   * subcheckers.
+   *
+   * @param treeToCheck the tree whose annotation should be fetched
+   * @param factory the subchecker's type factory
+   * @param acc the type of accumulator annotation
+   * @return the contents of the accumulator in that hierarchy, or the empty list if there are none
+   */
+  private static List<String> fetchStringsFromFactory(
+      Tree treeToCheck, AnnotatedTypeFactory factory, Class<? extends Annotation> acc) {
+    if (treeToCheck != null) {
+      AnnotatedTypeMirror type;
+      type = factory.getAnnotatedType(treeToCheck);
+      if (type != null) {
+        AnnotationMirror anno = type.getAnnotation(acc);
+        return AnnotationUtils.getElementValueArray(anno, "value", String.class, true);
+      }
+    }
+    return Collections.emptyList();
   }
 
   /**
@@ -44,59 +82,22 @@ public class EnforceChecksUtils {
   public static void checkRequirementsAgainstDefinitions(
       Tree treeToCheck,
       Tree reportLocation,
-      DefinedValuesAnnotatedTypeFactory definitionFactory,
-      DDBRequirementsAnnotatedTypeFactory requirementsFactory,
+      DefinedValuesAnnotatedTypeFactory definedValuesFactory,
+      DefinedNamesAnnotatedTypeFactory definedNamesFactory,
+      RequiredValuesAnnotatedTypeFactory requiredValuesFactory,
+      RequiredNamesAnnotatedTypeFactory requiredNamesFactory,
       BaseTypeChecker checker) {
-    // first, pull out the requirements
 
-    AnnotatedTypeMirror requirementsType;
-    AnnotationMirror requirementsAnno = null;
-
-    if (treeToCheck != null) {
-      requirementsType = requirementsFactory.getAnnotatedType(treeToCheck);
-      if (requirementsType != null) {
-        requirementsAnno = requirementsType.getAnnotationInHierarchy(requirementsFactory.top);
-      }
-    }
-    if (requirementsAnno == null) {
-      requirementsAnno = requirementsFactory.top;
-    }
-
-    List<String> requiredNames =
-        AnnotationUtils.areSame(requirementsAnno, requirementsFactory.top)
-            ? new ArrayList<>()
-            : AnnotationUtils.getElementValueArray(requirementsAnno, "names", String.class, true);
-
+    // first, fetch info from subcheckers about requirements and definitions
     List<String> requiredValues =
-        AnnotationUtils.areSame(requirementsAnno, requirementsFactory.top)
-            ? new ArrayList<>()
-            : AnnotationUtils.getElementValueArray(requirementsAnno, "values", String.class, true);
-
-    // then, use a similar process to get the actual values
-
-    AnnotatedTypeMirror definitionsType;
-    AnnotationMirror definitionsAnno = null;
-
-    if (treeToCheck != null) {
-      definitionsType = definitionFactory.getAnnotatedType(treeToCheck);
-      if (definitionsType != null) {
-        definitionsAnno = definitionsType.getAnnotationInHierarchy(definitionFactory.top);
-      }
-    }
-
-    if (definitionsAnno == null) {
-      definitionsAnno = definitionFactory.top;
-    }
-
-    List<String> definitionNames =
-        AnnotationUtils.areSame(definitionsAnno, definitionFactory.top)
-            ? new ArrayList<>()
-            : AnnotationUtils.getElementValueArray(definitionsAnno, "names", String.class, true);
+        fetchStringsFromFactory(treeToCheck, requiredValuesFactory, RequiredValues.class);
+    List<String> requiredNames =
+        fetchStringsFromFactory(treeToCheck, requiredNamesFactory, RequiredNames.class);
 
     List<String> definitionValues =
-        AnnotationUtils.areSame(definitionsAnno, definitionFactory.top)
-            ? new ArrayList<>()
-            : AnnotationUtils.getElementValueArray(definitionsAnno, "values", String.class, true);
+        fetchStringsFromFactory(treeToCheck, definedValuesFactory, DefinedValues.class);
+    List<String> definitionNames =
+        fetchStringsFromFactory(treeToCheck, definedNamesFactory, DefinedNames.class);
 
     // Then turn these two lists into hashsets with the actual names, stripping the # and : in the
     // process.

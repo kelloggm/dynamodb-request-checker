@@ -6,12 +6,16 @@ import javax.lang.model.element.ElementKind;
 import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
-import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsAnnotatedTypeFactory;
-import org.checkerframework.ddbrequest.ddbrequirements.DDBRequirementsChecker;
+import org.checkerframework.ddbrequest.definednames.DefinedNamesAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.definednames.DefinedNamesChecker;
 import org.checkerframework.ddbrequest.definedvalues.DefinedValuesAnnotatedTypeFactory;
 import org.checkerframework.ddbrequest.definedvalues.DefinedValuesChecker;
 import org.checkerframework.ddbrequest.enforcechecks.qual.DoNotEnforceChecks;
 import org.checkerframework.ddbrequest.enforcechecks.qual.EnforceChecks;
+import org.checkerframework.ddbrequest.requirednames.RequiredNamesAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.requirednames.RequiredNamesChecker;
+import org.checkerframework.ddbrequest.requiredvalues.RequiredValuesAnnotatedTypeFactory;
+import org.checkerframework.ddbrequest.requiredvalues.RequiredValuesChecker;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.TreeUtils;
 
@@ -36,12 +40,21 @@ public class EnforceChecksVisitor extends BaseTypeVisitor<EnforceChecksAnnotated
       Object... extraArgs) {
     if (varType.hasAnnotation(EnforceChecks.class)
         && valueType.hasAnnotation(DoNotEnforceChecks.class)) {
-      DefinedValuesAnnotatedTypeFactory definitionFactory =
+      DefinedValuesAnnotatedTypeFactory definedValuesFactory =
           atypeFactory.getTypeFactoryOfSubchecker(DefinedValuesChecker.class);
-      DDBRequirementsAnnotatedTypeFactory requirementsFactory =
-          atypeFactory.getTypeFactoryOfSubchecker(DDBRequirementsChecker.class);
+      DefinedNamesAnnotatedTypeFactory definedNamesFactory =
+          atypeFactory.getTypeFactoryOfSubchecker(DefinedNamesChecker.class);
+      RequiredValuesAnnotatedTypeFactory requiredValuesFactory =
+          atypeFactory.getTypeFactoryOfSubchecker(RequiredValuesChecker.class);
+      RequiredNamesAnnotatedTypeFactory requiredNamesFactory =
+          atypeFactory.getTypeFactoryOfSubchecker(RequiredNamesChecker.class);
       EnforceChecksUtils.checkRequirementsAgainstDefinitions(
-          valueTree, definitionFactory, requirementsFactory, checker);
+          valueTree,
+          definedValuesFactory,
+          definedNamesFactory,
+          requiredValuesFactory,
+          requiredNamesFactory,
+          checker);
     } else {
       super.commonAssignmentCheck(varType, valueType, valueTree, errorKey, extraArgs);
     }
@@ -74,12 +87,22 @@ public class EnforceChecksVisitor extends BaseTypeVisitor<EnforceChecksAnnotated
     if (!skipReceiverSubtypeCheck(node, methodReceiver, rcv)) {
       if (treeReceiver.hasAnnotation(DoNotEnforceChecks.class)
           && methodReceiver.hasAnnotation(EnforceChecks.class)) {
-        DefinedValuesAnnotatedTypeFactory definitionFactory =
+        DefinedValuesAnnotatedTypeFactory definedValuesFactory =
             atypeFactory.getTypeFactoryOfSubchecker(DefinedValuesChecker.class);
-        DDBRequirementsAnnotatedTypeFactory requirementsFactory =
-            atypeFactory.getTypeFactoryOfSubchecker(DDBRequirementsChecker.class);
+        DefinedNamesAnnotatedTypeFactory definedNamesFactory =
+            atypeFactory.getTypeFactoryOfSubchecker(DefinedNamesChecker.class);
+        RequiredValuesAnnotatedTypeFactory requiredValuesFactory =
+            atypeFactory.getTypeFactoryOfSubchecker(RequiredValuesChecker.class);
+        RequiredNamesAnnotatedTypeFactory requiredNamesFactory =
+            atypeFactory.getTypeFactoryOfSubchecker(RequiredNamesChecker.class);
         EnforceChecksUtils.checkRequirementsAgainstDefinitions(
-            TreeUtils.getReceiverTree(node), node, definitionFactory, requirementsFactory, checker);
+            TreeUtils.getReceiverTree(node),
+            node,
+            definedValuesFactory,
+            definedNamesFactory,
+            requiredValuesFactory,
+            requiredNamesFactory,
+            checker);
       } else {
         super.checkMethodInvocability(method, node);
       }

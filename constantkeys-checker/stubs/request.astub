@@ -1,1 +1,63 @@
-../../constantkeys-checker/stubs/request.astub
+import org.checkerframework.common.returnsreceiver.qual.This;
+
+package software.amazon.awssdk.services.dynamodb.model;
+
+class QueryRequest {
+    class Builder {
+        @This Builder attributeToGet(Collection<String> attributesToGet);
+        @This Builder attributesToGet(String... attributesToGet);
+        @This Builder conditionalOperator(ConditionalOperator conditionalOperator);
+        @This Builder conditionalOperator(String conditionalOperator);
+        @This Builder consistentRead(Boolean consistentRead);
+        @This Builder exclusiveStartKey(Map<String,AttributeValue> exclusiveStartKey);
+        @This Builder expressionAttributeNames(Map<String,String> expressionAttributeNames);
+        @This Builder expressionAttributeValues(Map<String,AttributeValue> expressionAttributeValues);
+        @This Builder filterExpression(String filterExpression);
+        @This Builder indexName(String indexName);
+        @This Builder keyConditionExpression(String keyConditionExpression);
+        @This Builder keyConditions(Map<String,Condition> keyConditions);
+        @This Builder limit(Integer limit);
+        @This Builder overrideConfiguration(AwsRequestOverrideConfiguration overrideConfiguration);
+        @This Builder overrideConfiguration(Consumer<AwsRequestOverrideConfiguration.Builder> builderConsumer);
+        @This Builder projectionExpression(String projectionExpression);
+        @This Builder queryFilter(Map<String,Condition> queryFilter);
+        @This Builder returnConsumedCapacity(ReturnConsumedCapacity returnConsumedCapacity);
+        @This Builder returnConsumedCapacity(String returnConsumedCapacity);
+        @This Builder scanIndexForward(Boolean scanIndexForward);
+        @This Builder select(Select select);
+        @This Builder select(String select);
+        @This Builder tableName(String tableName);
+    }
+}
+
+package com.amazonaws.services.dynamodbv2.model;
+
+class QueryRequest {
+    @This QueryRequest addExclusiveStartKeyEntry(String key, AttributeValue value);
+    @This QueryRequest addExpressionAttributeNamesEntry(String key, String value);
+    @This QueryRequest addExpressionAttributeValuesEntry(String key, AttributeValue value);
+    @This QueryRequest addKeyConditionsEntry(String key, Condition value);
+    @This QueryRequest addQueryFilterEntry(String key, Condition value);
+    @This QueryRequest withAttributesToGet(Collection<String> attributesToGet);
+    @This QueryRequest withAttributesToGet(String... attributesToGet);
+    @This QueryRequest withConditionalOperator(ConditionalOperator conditionalOperator);
+    @This QueryRequest withConditionalOperator(String conditionalOperator);
+    @This QueryRequest withConsistentRead(Boolean consistentRead);
+    @This QueryRequest withExclusiveStartKey(Map.Entry<String,AttributeValue> hashKey, Map.Entry<String,AttributeValue> rangeKey);
+    @This QueryRequest withExclusiveStartKey(Map<String,AttributeValue> exclusiveStartKey);
+    @This QueryRequest withExpressionAttributeNames(Map<String,String> expressionAttributeNames);
+    @This QueryRequest withExpressionAttributeValues(Map<String,AttributeValue> expressionAttributeValues);
+    @This QueryRequest withFilterExpression(String filterExpression);
+    @This QueryRequest withIndexName(String indexName);
+    @This QueryRequest withKeyConditionExpression(String keyConditionExpression);
+    @This QueryRequest withKeyConditions(Map<String,Condition> keyConditions);
+    @This QueryRequest withLimit(Integer limit);
+    @This QueryRequest withProjectionExpression(String projectionExpression);
+    @This QueryRequest withQueryFilter(Map<String,Condition> queryFilter);
+    @This QueryRequest withReturnConsumedCapacity(ReturnConsumedCapacity returnConsumedCapacity);
+    @This QueryRequest withReturnConsumedCapacity(String returnConsumedCapacity);
+    @This QueryRequest withScanIndexForward(Boolean scanIndexForward);
+    @This QueryRequest withSelect(Select select);
+    @This QueryRequest withSelect(String select);
+    @This QueryRequest withTableName(String tableName);
+}

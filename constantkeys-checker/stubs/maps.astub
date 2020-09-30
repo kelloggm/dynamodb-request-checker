@@ -1,1 +1,17 @@
-../../constantkeys-checker/stubs/maps.astub
+import org.checkerframework.ddbrequest.constantkeys.qual.*;
+
+package com.google.common.collect;
+
+class ImmutableMap<K, V> {
+    class Builder<K, V> {
+        @PolyConstantKeys ImmutableMap build(@PolyConstantKeys Builder<K, V> this);
+    }
+}
+
+package software.amazon.awssdk.utils;
+
+class ImmutableMap<K, V> {
+    class Builder<K, V> {
+        @PolyConstantKeys ImmutableMap build(@PolyConstantKeys Builder<K, V> this);
+    }
+}
